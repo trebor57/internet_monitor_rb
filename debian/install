@@ -1,0 +1,2 @@
+# This file is not used when using dh_install
+# Files are installed via debian/rules override_dh_auto_install

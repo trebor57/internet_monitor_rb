@@ -1,0 +1,12 @@
+internet-monitor (1.0.0-1) unstable; urgency=medium
+
+  * Initial Debian package release
+  * Ruby implementation of Internet Monitor for AllStarLink ASL3+
+  * Features:
+    - Automatic internet connectivity monitoring
+    - Audio announcements for connection status changes
+    - Automatic log rotation
+    - Network recovery attempts
+    - Systemd service integration
+
+ -- Jory A. Pratt, W5GLE <geekypenguin@gmail.com>  Mon, 01 Jan 2026 12:00:00 +0000

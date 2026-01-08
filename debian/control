@@ -1,0 +1,28 @@
+Source: internet-monitor
+Section: hamradio
+Priority: optional
+Maintainer: Debian Hamradio Maintainers <debian-hams@lists.debian.org>
+Build-Depends: debhelper-compat (= 13), ruby
+Standards-Version: 4.6.2
+Homepage: https://github.com/KD5FMU/Internet-Monitor-ASL3
+Vcs-Browser: https://github.com/KD5FMU/Internet-Monitor-ASL3
+Vcs-Git: https://github.com/KD5FMU/Internet-Monitor-ASL3.git
+Rules-Requires-Root: no
+
+Package: internet-monitor
+Architecture: all
+Depends: ${misc:Depends}, ${ruby:Depends}, ruby, iputils-ping, systemd, asl3-asterisk
+Recommends: network-manager
+Description: Internet connectivity monitor for AllStarLink ASL3+ nodes
+ A robust internet connectivity monitoring service designed specifically
+ for AllStarLink mobile nodes. This service automatically detects internet
+ connection status and provides local audio announcements to keep operators
+ informed of connectivity changes.
+ .
+ Features:
+  * Automatic monitoring with configurable check intervals
+  * Comprehensive connectivity testing (ping and DNS)
+  * Local audio announcements via AllStarLink
+  * Automatic log rotation
+  * Network recovery attempts
+  * Systemd service integration

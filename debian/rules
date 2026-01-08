@@ -1,0 +1,21 @@
+#!/usr/bin/make -f
+# debian/rules for internet-monitor
+
+export DH_VERBOSE = 1
+export DEB_BUILD_MAINT_OPTIONS = hardening=+all
+
+%:
+	dh $@
+
+override_dh_auto_install:
+	# Install systemd service file
+	install -d debian/internet-monitor/etc/systemd/system
+	install -m 644 internet-monitor.service debian/internet-monitor/etc/systemd/system/
+	# Install Ruby script
+	install -d debian/internet-monitor/usr/sbin
+	install -m 755 internet_monitor.rb debian/internet-monitor/usr/sbin/internet_monitor.rb
+	# Install default configuration file (as .dpkg-new to avoid overwriting existing config)
+	install -d debian/internet-monitor/etc
+	install -m 644 debian/internet-monitor.conf debian/internet-monitor/etc/internet-monitor.conf.dpkg-new
+
+.PHONY: override_dh_auto_install

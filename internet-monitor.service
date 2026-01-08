@@ -1,0 +1,23 @@
+[Unit]
+Description=AllStarLink Internet Connection Monitor
+After=network.target asterisk.service NetworkManager.service
+Wants=network.target
+
+[Service]
+Type=simple
+ExecStart=/usr/sbin/internet_monitor.rb
+Restart=always
+RestartSec=10
+StandardOutput=journal
+StandardError=journal
+User=root
+Group=root
+
+# Security settings (relaxed to allow NetworkManager control)
+# NoNewPrivileges=true - Disabled to allow systemctl commands
+# ProtectSystem=strict - Disabled to allow network management
+ProtectHome=true
+ReadWritePaths=/var/log /etc/asterisk /run/dbus /var/run/dbus /run/systemd
+
+[Install]
+WantedBy=multi-user.target
