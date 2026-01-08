@@ -1,12 +1,12 @@
 Source: internet-monitor
 Section: hamradio
 Priority: optional
-Maintainer: Debian Hamradio Maintainers <debian-hams@lists.debian.org>
+Maintainer: Jory A. Pratt, W5GLE <geekypenguin@gmail.com>
 Build-Depends: debhelper-compat (= 13), ruby
 Standards-Version: 4.6.2
-Homepage: https://github.com/KD5FMU/Internet-Monitor-ASL3
-Vcs-Browser: https://github.com/KD5FMU/Internet-Monitor-ASL3
-Vcs-Git: https://github.com/KD5FMU/Internet-Monitor-ASL3.git
+Homepage: https://github.com/hardenedpenguin/internet_monitor_rb
+Vcs-Browser: https://github.com/hardenedpenguin/internet_monitor_rb
+Vcs-Git: https://github.com/hardenedpenguin/internet_monitor_rb.git
 Rules-Requires-Root: no
 
 Package: internet-monitor
