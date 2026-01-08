@@ -17,5 +17,9 @@ override_dh_auto_install:
 	# Install default configuration file (as .dpkg-new to avoid overwriting existing config)
 	install -d debian/internet-monitor/etc
 	install -m 644 debian/internet-monitor.conf debian/internet-monitor/etc/internet-monitor.conf.dpkg-new
+	# Install sound files
+	install -d debian/internet-monitor/usr/share/asterisk/sounds/custom
+	install -m 644 sounds/internet-yes.ulaw debian/internet-monitor/usr/share/asterisk/sounds/custom/
+	install -m 644 sounds/internet-no.ulaw debian/internet-monitor/usr/share/asterisk/sounds/custom/
 
 .PHONY: override_dh_auto_install

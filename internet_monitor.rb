@@ -113,11 +113,12 @@ class AudioPlayer
   end
 
   def play(audio_file)
-    full_path = File.join(@sound_dir, "#{audio_file.chomp('.ul')}.ul")
+    base_name = audio_file.chomp('.ulaw')
+    full_path = File.join(@sound_dir, "#{base_name}.ulaw")
     return false unless File.exist?(full_path)
 
     if @asterisk_cli && File.executable?(@asterisk_cli)
-      filename = File.basename(full_path, '.ul')
+      filename = base_name
       system("#{@asterisk_cli} -rx \"rpt localplay #{@node} #{filename}\" >/dev/null 2>&1")
       @logger.info("Played audio: #{filename}")
       true

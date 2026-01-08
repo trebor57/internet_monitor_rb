@@ -8,42 +8,11 @@ set -e
 
 case "$1" in
     configure)
-        # Create sound directory if it doesn't exist
-        if [ ! -d /usr/share/asterisk/sounds/custom ]; then
-            mkdir -p /usr/share/asterisk/sounds/custom
-        fi
-        
-        # Download audio files if they don't exist
+        # Set ownership on installed sound files
         SOUND_DIR="/usr/share/asterisk/sounds/custom"
-        if [ ! -f "${SOUND_DIR}/internet-yes.ul" ] || [ ! -f "${SOUND_DIR}/internet-no.ul" ]; then
-            echo "Downloading audio files..."
-            
-            # Check for download tool
-            if command -v wget >/dev/null 2>&1; then
-                DOWNLOAD_CMD="wget -q -O"
-            elif command -v curl >/dev/null 2>&1; then
-                DOWNLOAD_CMD="curl -sSL -o"
-            else
-                echo "Warning: Neither wget nor curl found. Audio files will not be downloaded."
-                echo "Please install wget or curl, or manually download the audio files."
-                exit 0
-            fi
-            
-            # Download audio files
-            BASE_URL="https://raw.githubusercontent.com/KD5FMU/Internet-Monitor-ASL3/main"
-            cd "$SOUND_DIR"
-            
-            if $DOWNLOAD_CMD internet-yes.ul "${BASE_URL}/internet-yes.ul"; then
-                echo "Downloaded internet-yes.ul"
-            else
-                echo "Warning: Failed to download internet-yes.ul"
-            fi
-            
-            if $DOWNLOAD_CMD internet-no.ul "${BASE_URL}/internet-no.ul"; then
-                echo "Downloaded internet-no.ul"
-            else
-                echo "Warning: Failed to download internet-no.ul"
-            fi
+        if getent passwd asterisk >/dev/null 2>&1; then
+            [ -f "${SOUND_DIR}/internet-yes.ulaw" ] && chown asterisk:asterisk "${SOUND_DIR}/internet-yes.ulaw" 2>/dev/null || true
+            [ -f "${SOUND_DIR}/internet-no.ulaw" ] && chown asterisk:asterisk "${SOUND_DIR}/internet-no.ulaw" 2>/dev/null || true
         fi
         
         # Reload systemd daemon
