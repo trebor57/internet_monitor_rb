@@ -11,6 +11,16 @@ A robust internet connectivity monitoring service for AllStarLink mobile nodes t
 - Network recovery attempts
 - Systemd service integration
 
+## Installation
+
+Download and install the latest release:
+
+```bash
+cd /tmp
+wget https://github.com/hardenedpenguin/internet_monitor_rb/releases/download/v1.0.0/internet-monitor_1.0.0-1_all.deb
+sudo dpkg -i internet-monitor_1.0.0-1_all.deb
+```
+
 ## Configuration
 
 Edit `/etc/internet-monitor.conf` and set your `NODE_NUMBER`:
