@@ -2,8 +2,8 @@ Source: internet-monitor
 Section: hamradio
 Priority: optional
 Maintainer: Jory A. Pratt, W5GLE <geekypenguin@gmail.com>
-Build-Depends: debhelper-compat (= 13), ruby
-Standards-Version: 4.6.2
+Build-Depends: debhelper-compat (= 13), ruby (>= 2.7)
+Standards-Version: 4.7.0
 Homepage: https://github.com/hardenedpenguin/internet_monitor_rb
 Vcs-Browser: https://github.com/hardenedpenguin/internet_monitor_rb
 Vcs-Git: https://github.com/hardenedpenguin/internet_monitor_rb.git
@@ -11,7 +11,7 @@ Rules-Requires-Root: no
 
 Package: internet-monitor
 Architecture: all
-Depends: ${misc:Depends}, ${ruby:Depends}, ruby, iputils-ping, systemd, asl3-asterisk
+Depends: ${misc:Depends}, ${ruby:Depends}, ruby (>= 2.7), iputils-ping, systemd, asl3-asterisk
 Recommends: network-manager
 Description: Internet connectivity monitor for AllStarLink ASL3+ nodes
  A robust internet connectivity monitoring service designed specifically

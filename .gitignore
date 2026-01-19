@@ -1,0 +1,41 @@
+# Ruby
+*.gem
+*.rbc
+/.config
+/coverage/
+/InstalledFiles
+/pkg/
+/spec/reports/
+/spec/examples.txt
+/test/tmp/
+/test/version_tmp/
+/tmp/
+/.bundle/
+/vendor/bundle
+/lib/bundler/man/
+
+# Debian build
+debian/.debhelper/
+debian/files
+debian/internet-monitor/
+debian/internet-monitor.substvars
+debian/*.debhelper.log
+debian/*.substvars
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+*.log.*
+
+# Coverage
+coverage/

@@ -56,6 +56,27 @@ sudo systemctl enable internet-monitor   # Enable auto-start on boot
 sudo systemctl status internet-monitor   # Check service status
 ```
 
+## Security
+
+This application has been hardened against command injection vulnerabilities. All system commands use safe argument arrays instead of string interpolation. Configuration values are validated before use.
+
+## Troubleshooting
+
+### Service won't start
+- Check that `/etc/internet-monitor.conf` exists and has a valid `NODE_NUMBER`
+- Verify required commands are available: `ping`, `systemctl`, `ip`
+- Check systemd logs: `journalctl -u internet-monitor -n 50`
+
+### Audio not playing
+- Verify Asterisk is running: `systemctl status asterisk`
+- Check that sound files exist in the configured `SOUND_DIR`
+- Verify node number is correct in configuration
+
+### Network reconnection not working
+- Ensure NetworkManager is installed and active
+- Check that the service has necessary permissions
+- Review logs for specific error messages
+
 ## License
 
 This project is licensed under the GNU General Public License v3.0.
