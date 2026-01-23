@@ -1,3 +1,19 @@
+internet-monitor (1.0.1-1) unstable; urgency=medium
+
+  * Security and code quality improvements
+  * Fix command injection vulnerabilities by using safe argument arrays
+  * Replace shell-based DNS testing with Ruby Resolv library
+  * Rename Logger class to InternetMonitorLogger to avoid conflicts
+  * Replace global variable with SignalHandler class for better encapsulation
+  * Improve error handling for file operations and log rotation
+  * Add comprehensive configuration validation with range checks
+  * Add debug logging level for troubleshooting
+  * Update Debian packaging standards version to 4.7.0
+  * Add explicit Ruby version requirement (>= 2.7)
+  * Enhance README with security and troubleshooting sections
+
+ -- Jory A. Pratt, W5GLE <geekypenguin@gmail.com>  Thu, 23 Jan 2026 12:33:54 +0000
+
 internet-monitor (1.0.0-1) unstable; urgency=medium
 
   * Initial Debian package release
