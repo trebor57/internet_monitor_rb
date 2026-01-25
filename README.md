@@ -17,8 +17,9 @@ Download and install the latest release:
 
 ```bash
 cd /tmp
-wget https://github.com/hardenedpenguin/internet_monitor_rb/releases/download/v1.0.0/internet-monitor_1.0.0-1_all.deb
-sudo dpkg -i internet-monitor_1.0.0-1_all.deb
+wget https://github.com/hardenedpenguin/internet_monitor_rb/releases/download/v1.0.1/internet-monitor_1.0.1-1_all.deb
+sudo dpkg -i internet-monitor_1.0.1-1_all.deb
+sudo apt-get install -f  # Fix any dependency issues
 ```
 
 ## Configuration
