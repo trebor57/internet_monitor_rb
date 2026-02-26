@@ -1,5 +1,7 @@
 # Internet Monitor for AllStarLink ASL3+
 
+![GitHub total downloads](https://img.shields.io/github/downloads/hardenedpenguin/internet_monitor_rb/total?style=flat-square)
+
 A robust internet connectivity monitoring service for AllStarLink mobile nodes that automatically detects internet connection status and provides local audio announcements.
 
 ## Features
