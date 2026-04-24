@@ -1,6 +1,6 @@
 # Internet Monitor for AllStarLink ASL3+
 
-![GitHub total downloads](https://img.shields.io/github/downloads/hardenedpenguin/internet_monitor_rb/total?style=flat-square)
+[![CI](https://github.com/hardenedpenguin/internet_monitor_rb/actions/workflows/ci.yml/badge.svg)](https://github.com/hardenedpenguin/internet_monitor_rb/actions/workflows/ci.yml)
 
 A robust internet connectivity monitoring service for AllStarLink mobile nodes that automatically detects internet connection status and provides local audio announcements.
 
@@ -19,10 +19,12 @@ Download and install the latest release:
 
 ```bash
 cd /tmp
-wget https://github.com/hardenedpenguin/internet_monitor_rb/releases/download/v1.0.1/internet-monitor_1.0.1-1_all.deb
-sudo dpkg -i internet-monitor_1.0.1-1_all.deb
+wget https://github.com/hardenedpenguin/internet_monitor_rb/releases/download/v1.0.2/internet-monitor_1.0.2-1_all.deb
+sudo dpkg -i internet-monitor_1.0.2-1_all.deb
 sudo apt-get install -f  # Fix any dependency issues
 ```
+
+Prebuilt `.deb` files are attached to [GitHub Releases](https://github.com/hardenedpenguin/internet_monitor_rb/releases). Pushing a git tag named `v*` (for example `v1.0.2`) builds the package from `debian/changelog` and publishes that tag as a release with the binary attached.
 
 ## Configuration
 
@@ -43,7 +45,7 @@ sudo systemctl enable internet-monitor
 
 - `NODE_NUMBER`: Your AllStarLink node number (required)
 - `CHECK_INTERVAL`: How often to check connectivity in seconds (default: 180, minimum: 30)
-- `PING_HOSTS`: Space-separated list of servers to ping (default: "1.1.1.1 8.8.8.8 208.67.222.222")
+- `PING_HOSTS`: Space-separated list of servers to ping (default: "1.1.1.1 8.8.8.8 208.67.222.222"). Each target must be a hostname or address using only letters, digits, `.`, `:`, `_`, `%`, `+`, or `-`, and must not begin with `-`.
 - `SOUND_DIR`: Directory containing audio files (default: "/usr/share/asterisk/sounds/custom")
 - `LOG_FILE`: Path to log file (default: "/var/log/internet-monitor.log")
 - `ASTERISK_CLI`: Path to Asterisk CLI executable (default: "/usr/sbin/asterisk")
@@ -61,7 +63,7 @@ sudo systemctl status internet-monitor   # Check service status
 
 ## Security
 
-This application has been hardened against command injection vulnerabilities. All system commands use safe argument arrays instead of string interpolation. Configuration values are validated before use.
+This application has been hardened against command injection vulnerabilities. All system commands use safe argument arrays instead of string interpolation. Configuration values are validated before use. Connectivity checks invoke `ping` with a `--` separator so targets cannot be parsed as extra flags, and optional sound paths are confined to `SOUND_DIR`.
 
 ## Troubleshooting
 

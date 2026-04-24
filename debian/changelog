@@ -1,3 +1,11 @@
+internet-monitor (1.0.2-1) unstable; urgency=medium
+
+  * Further hardening: ping uses '--' before targets; validate PING_HOSTS tokens
+  * Run ip(8) without a shell; ensure sound files stay under SOUND_DIR
+  * Add GitHub Actions CI (syntax + Debian package build) and tag-based releases
+
+ -- Jory A. Pratt, W5GLE <geekypenguin@gmail.com>  Wed, 23 Apr 2026 00:00:00 +0000
+
 internet-monitor (1.0.1-1) unstable; urgency=medium
 
   * Security and code quality improvements

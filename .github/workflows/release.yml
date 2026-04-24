@@ -1,0 +1,35 @@
+# SPDX-License-Identifier: GPL-3.0-or-later
+# Push an annotated or lightweight tag matching v* (e.g. v1.0.2) after updating
+# debian/changelog so the built .deb version matches the release.
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+permissions:
+  contents: write
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install Debian build dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends debhelper fakeroot ruby build-essential
+
+      - name: Build binary package
+        run: fakeroot dpkg-buildpackage -b -us -uc
+
+      - name: Stage .deb for release
+        run: cp "${GITHUB_WORKSPACE}"/../internet-monitor_*_all.deb "${GITHUB_WORKSPACE}/"
+
+      - name: Publish GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: internet-monitor_*_all.deb
+          generate_release_notes: true

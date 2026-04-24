@@ -15,6 +15,7 @@
 /lib/bundler/man/
 
 # Debian build
+debian/debhelper-build-stamp
 debian/.debhelper/
 debian/files
 debian/internet-monitor/

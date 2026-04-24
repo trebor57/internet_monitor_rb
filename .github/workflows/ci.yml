@@ -1,0 +1,35 @@
+# SPDX-License-Identifier: GPL-3.0-or-later
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Ruby syntax check
+        run: ruby -c internet_monitor.rb
+
+      - name: Install Debian build dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends debhelper fakeroot ruby build-essential
+
+      - name: Build binary package
+        run: fakeroot dpkg-buildpackage -b -us -uc
+
+      - name: Collect .deb for artifact
+        run: |
+          mkdir -p build
+          cp ../*.deb build/
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: internet-monitor-deb
+          path: build/*.deb

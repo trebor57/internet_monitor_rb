@@ -34,6 +34,17 @@ class Config
     'LOG_RETENTION' => [:log_retention, ->(v) { v.to_i }]
   }.freeze
 
+  # Conservative allowlist: hostnames, IPv4 literals, and IPv6 (including zone id).
+  PING_TARGET_PATTERN = /\A[0-9A-Za-z.:_%+-]+\z/.freeze
+
+  def self.valid_ping_target?(host)
+    h = host.strip
+    return false if h.empty? || h.start_with?('-')
+    return false unless h.match?(PING_TARGET_PATTERN)
+
+    true
+  end
+
   attr_accessor :node_number, :check_interval, :ping_hosts, :sound_dir,
                 :log_file, :asterisk_cli, :max_log_size, :log_retention
 
@@ -80,10 +91,11 @@ class Config
       raise "Invalid CHECK_INTERVAL: #{@check_interval} (must be between 30 and 3600 seconds)"
     end
 
-    # Validate ping hosts
+    # Validate ping hosts (no option-injection prefixes, no shell metacharacters)
     raise "PING_HOSTS cannot be empty" if @ping_hosts.nil? || @ping_hosts.empty?
     @ping_hosts.each do |host|
-      raise "Invalid ping host: #{host}" if host.nil? || host.strip.empty?
+      raise "Invalid ping host: #{host.inspect}" if host.nil? || host.strip.empty?
+      raise "Invalid ping host: #{host.inspect}" unless self.class.valid_ping_target?(host)
     end
 
     # Validate file paths
@@ -161,7 +173,12 @@ class AudioPlayer
 
   def play(audio_file)
     base_name = audio_file.chomp('.ulaw')
-    full_path = File.join(@sound_dir, "#{base_name}.ulaw")
+    sound_root = File.expand_path(@sound_dir)
+    full_path = File.expand_path(File.join(@sound_dir, "#{base_name}.ulaw"))
+    unless full_path.start_with?(sound_root + File::SEPARATOR) || full_path == sound_root
+      @logger.warn('Sound path escapes SOUND_DIR, skipping playback')
+      return false
+    end
     return false unless File.exist?(full_path)
 
     if @asterisk_cli && File.executable?(@asterisk_cli)
@@ -211,8 +228,8 @@ class ConnectivityTester
     @ping_hosts.any? do |host|
       next false if host.nil? || host.strip.empty?
 
-      # Use safe command execution with argument array
-      system('ping', '-c', '1', '-W', timeout.to_s, host, out: File::NULL, err: File::NULL)
+      # Use '--' so targets starting with '-' cannot be parsed as ping options
+      system('ping', '-c', '1', '-W', timeout.to_s, '--', host, out: File::NULL, err: File::NULL)
     end
   rescue StandardError => e
     @logger.error("Ping test error: #{e.message}")
@@ -336,8 +353,8 @@ class NetworkManager
 
     sleep 2 # Give interfaces time to come up
 
-    # Check if any network interfaces are up (using safe command execution)
-    output = `ip link show 2>/dev/null`
+    # Read ip(8) output without invoking a shell (consistent with other command paths)
+    output = IO.popen(['ip', 'link', 'show'], err: File::NULL, &:read)
     if output && output.include?('state UP')
       @logger.info('Network interfaces are up')
       true
